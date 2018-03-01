@@ -182,9 +182,9 @@ checkpoint_callback = callbacks.ModelCheckpoint(filepath=model_filename, verbose
 
 # Stop training when monitored quantity has stopped improving.
 # stop training if the val_loss has reduced (i.e delta is < 0) for 2 (patience) consecutive times
-earlystopping_callback = callbacks.EarlyStopping(monitor = 'val_loss', min_delta = 0, patience = 2, verbose = 1, mode='auto')
+earlystopping_callback = callbacks.EarlyStopping(monitor = 'val_loss', min_delta = 0, patience = 5, verbose = 1, mode='auto')
 
-model.fit(x=x_train, y=y_train, epochs=10, batch_size=64, 
+model.fit(x=x_train, y=y_train, epochs=20, batch_size=64, 
           validation_data=(x_test, y_test),
           callbacks = [checkpoint_callback, earlystopping_callback])
 
@@ -193,15 +193,9 @@ print("Loss:", loss)
 print("Accuracy:", accuracy)
 ```
 
-    Loading previously saved model: ./imdb_lstm.h5
-    Done loading model
     Train on 25000 samples, validate on 25000 samples
-    Epoch 1/10
-    25000/25000 [==============================] - 230s 9ms/step - loss: 0.0761 - acc: 0.9744 - val_loss: 0.5737 - val_acc: 0.8123
-    
-    Epoch 00001: val_loss improved from inf to 0.57370, saving model to ./imdb_lstm.h5
-    Epoch 2/10
-     3520/25000 [===>..........................] - ETA: 2:52 - loss: 0.0595 - acc: 0.9801
+    Epoch 1/20
+    14464/25000 [================>.............] - ETA: 1:20 - loss: 0.0089 - acc: 0.9979
 
 ### **Step 7:** Train using TF-IDF and LogRegression using sklearn
 
@@ -240,12 +234,13 @@ print("Accuracy:", accuracy_score(y_test, y_predicted))
 
 ## Results
 
-| Method       | Loss_Function      | Loss value|Accuracy|
-|--------------|:-------------------| --------: |-------:|
-| LSTM         | binary_crossentropy|   0.379   |  83.6  |
-| TF-IDF/LogReg| LogLoss            |   0.383   |  84.2  |
+| Method       | Loss_Function      | Test Loss value| Test Accuracy|
+|:-------------|:-------------------| -------------: |-------------:|
+| LSTM         | binary_crossentropy|   0.379        |  83.6        |
+| TF-IDF/LogReg| LogLoss            |   0.383        |  84.2        |
 
 
 ## Further Learning Resources
 1. State-of-art Sentiment classifier - Unsupervised Sentiment Neuron - https://blog.openai.com/unsupervised-sentiment-neuron/
 2. Understanding LSTM Networks https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+3. This repos is inspired by - GoDataDriven blogpost - https://blog.godatadriven.com/deep-learning-sentiment-classification
